@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true">
+
+	<property name="LOG_HOME" value="/logs/freestyle" />
+	<property name="APP_ID" value="SP" />
+	<property name="APP_HOST" value="${APP_HOST}" />
+	<property name="PATTERN_LAYOUT"
+		value="%d %-5level %logger %line - %msg%n" />
+
+	<!-- %m输出的信息,%p日志级别,%t线程名,%d日期,%c类的全名,%i索引【从数字0开始递增】,,, -->
+	<!-- appender是configuration的子节点，是负责写日志的组件。 -->
+	<!-- ConsoleAppender：把日志输出到控制台 -->
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>info</level>
+		</filter>
+		<!-- 控制台也要使用UTF-8，不要使用GBK，否则会中文乱码 -->
+		<encoder charset="UTF-8">
+			<pattern>${PATTERN_LAYOUT}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- RollingFileAppender：滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 -->
+	<!-- 以下的大概意思是：1.先按日期存日志，日期变了，将前一天的日志文件名重命名为XXX%日期%索引，新的日志仍然是demo.log -->
+	<!--             2.如果日期没有发生变化，但是当前日志的文件大小超过1KB时，对当前日志进行分割 重命名-->
+	<appender name="file-debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/debug.log</file>
+		<!-- rollingPolicy:当发生滚动时，决定 RollingFileAppender 的行为，涉及文件移动和重命名。 -->
+		<!-- TimeBasedRollingPolicy： 最常用的滚动策略，它根据时间来制定滚动策略，既负责滚动也负责出发滚动 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--日志文件输出的文件名 -->
+			<FileNamePattern>${LOG_HOME}/debug-%d{yyyy-MM-dd}.log</FileNamePattern>
+			<!--日志文件保留天数 -->
+			<MaxHistory>15</MaxHistory>
+			<!--<timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				&lt;!&ndash; maxFileSize:这是活动文件的大小，默认值是10MB，测试时可改成1KB看效果 &ndash;&gt;
+				<maxFileSize>1KB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>-->
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+			<pattern>${PATTERN_LAYOUT}</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+	</appender>
+
+	<appender name="file-info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/info.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--日志文件输出的文件名 -->
+			<FileNamePattern>${LOG_HOME}/info.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<!--日志文件保留天数 -->
+			<MaxHistory>15</MaxHistory>
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+			<pattern>${PATTERN_LAYOUT}</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+	</appender>
+
+	<appender name="file-error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/error.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--日志文件输出的文件名 -->
+			<FileNamePattern>${LOG_HOME}/error.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<!--日志文件保留天数 -->
+			<MaxHistory>15</MaxHistory>
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+			<pattern>${PATTERN_LAYOUT}</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+	</appender>
+
+	<appender name="async-file" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>1000</queueSize>
+		<appender-ref ref="file-debug" />
+	</appender>
+
+	<logger name="com.hzm.freestyle" level="DEBUG" />
+	
+	<!-- 控制台输出日志级别 -->
+	<root level="INFO">
+		<appender-ref ref="stdout" />
+	</root>
+</configuration>

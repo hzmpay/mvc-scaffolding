@@ -2,6 +2,8 @@ package com.hzm.freestyle.service;
 
 import com.hzm.freestyle.dto.User;
 
+import java.util.List;
+
 /**
  * ?
  *
@@ -17,5 +19,7 @@ public interface UserService {
      * @param userId
      * @return
      */
-    User getUserByUserId(String userId);
+    User getUserByUserId(Integer userId);
+
+    List<User> getUser();
 }

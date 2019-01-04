@@ -7,6 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * ?
@@ -24,8 +26,19 @@ public class UserServiceImpl implements UserService {
     private SqlSessionTemplate sqlSessionTemplate;
 
     @Override
-    public User getUserByUserId(String userId) {
+    public User getUserByUserId(Integer userId) {
 //        return userMapper.getUserByUserId(userId);
         return sqlSessionTemplate.selectOne("UserMapper.getUserByUserId", userId);
+    }
+
+    @Override
+    public List<User> getUser() {
+        Collection<String> list = sqlSessionTemplate.getConfiguration().getMappedStatementNames();
+
+        for (String s : list) {
+            System.out.println(s);
+        }
+
+        return sqlSessionTemplate.selectList("UserMapper.getUser");
     }
 }

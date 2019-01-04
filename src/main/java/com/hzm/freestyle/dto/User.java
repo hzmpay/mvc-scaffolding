@@ -16,50 +16,34 @@ public class User {
     /**
      * 用户ID
      */
-    private String userId;
+    private Integer userId;
+    /**
+     * 用户真实姓名
+     */
+    private String name;
     /**
      * 手机号
      */
     private String phone;
     /**
-     * 用户真实姓名
-     */
-    private String realName;
-    /**
-     * 当前门店ID
-     */
-    private String storeId;
-    /**
-     * 商户ID
-     */
-    private String companyId;
-    /**
-     * 最后登录时间
-     */
-    private Date lastLoginTime;
-    /**
-     * 用户类型：0=普通用户，1=VIP会员，2=银卡会员，3=金卡会员，4=钻石会员
-     */
-    private Integer type;
-    /**
-     * 用户状态：0=正常，1=异常锁定
-     */
-    private Integer status;
-    /**
-     * 当前TOKEN
-     */
-    private String accessToken;
-    /**
      * 注册时间
      */
     private Date crtTime;
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPhone() {
@@ -68,63 +52,6 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getRealName() {
-        return realName;
-    }
-
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
-
-    public String getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(String storeId) {
-        this.storeId = storeId;
-    }
-
-    public String getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
-    }
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    public Date getLastLoginTime() {
-        return lastLoginTime;
-    }
-
-    public void setLastLoginTime(Date lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
     }
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -140,14 +67,8 @@ public class User {
     public String toString() {
         return "User{" +
                 "userId='" + userId + '\'' +
+                ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
-                ", realName='" + realName + '\'' +
-                ", storeId='" + storeId + '\'' +
-                ", companyId='" + companyId + '\'' +
-                ", lastLoginTime=" + lastLoginTime +
-                ", type=" + type +
-                ", status=" + status +
-                ", accessToken='" + accessToken + '\'' +
                 ", crtTime=" + crtTime +
                 '}';
     }

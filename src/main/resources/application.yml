@@ -1,14 +1,23 @@
-
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/hymn_pub?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
     username: root
     password: 123456
+
 server:
   port: 8971
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+    cache-enabled: true
+    use-generated-keys: true
+    default-executor-type: reuse
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-prefix: service.
   type-aliases-package: com.hzm.freestyle.dto
-  mapper-locations: mapper/*.xml
+  mapper-locations: classpath:mapper/*Mapper.xml
+#pagehelper:
+#logging:
+#  config: classpath:logback-spring.xml
