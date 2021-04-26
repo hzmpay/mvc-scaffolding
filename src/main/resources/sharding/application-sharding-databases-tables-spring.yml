@@ -1,0 +1,73 @@
+# TODO 有问题！！！！！
+## 配置真实数据源
+spring:
+  shardingsphere:
+    datasource:
+      # 数据库名（注意：数据库名不能带下划线）
+      names: sharding0, sharding1
+      # 公共配置
+      common:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        password: coship
+      # 配置第 1 个数据源
+      sharding0:
+        jdbc-url: jdbc:mysql://172.21.23.56:3306/sharding0?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
+      # 配置第 2 个数据源
+      sharding1:
+        jdbc-url: jdbc:mysql://172.21.23.56:3306/sharding1?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
+    # 配置分片规则
+    rules:
+      sharding:
+        keyGenerators:
+          snowflake:
+            type: SNOWFLAKE
+            props:
+              workerId: 123
+        # 配置分片算法
+        shardingAlgorithms:
+          user_id_inline:
+            type: INLINE
+            props:
+              # 根据用户分库
+              algorithm-expression: sharding$->{user_id % 2}
+          order_id_inline:
+            type: INLINE
+            props:
+              # 根据订单id分表
+              algorithm-expression: t_order_$->{order_id % 2}
+        # 配置分库分表规则
+        tables:
+          # 配置 t_order 表规则
+          t_order:
+            actual-data-nodes: sharding$->{0..1}.t_order_$->{0..2}
+            # 配置分库策略
+            database-strategy:
+              standard:
+                sharding-column: user_id
+                sharding-algorithm-name: user_id_inline
+            # 配置分表策略
+            table-strategy:
+              standard:
+                # 分片列名称
+                sharding-column: order_id
+                # 自动分片算法名称
+                sharding-algorithm-name: order_id_inline
+          # 配置 t_order_item 表规则
+          t_order_item:
+            actual-data-nodes: sharding$->{0..1}.t_order_item_$->{0..2}
+            # 配置分库策略
+            database-strategy:
+              standard:
+                sharding-column: user_id
+                sharding-algorithm-name: user_id_inline
+            # 配置分表策略
+            table-strategy:
+              standard:
+                # 分片列名称
+                sharding-column: order_id
+                # 自动分片算法名称
+                sharding-algorithm-name: order_id_inline
+
+

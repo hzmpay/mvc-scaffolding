@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false" scan="true">
 
-	<property name="LOG_HOME" value="/logs/freestyle" />
+	<property name="LOG_HOME" value="/logs/mvc-scaffolding" />
 	<property name="APP_ID" value="SP" />
 	<property name="APP_HOST" value="${APP_HOST}" />
 	<property name="PATTERN_LAYOUT"
 		value="%d %-5level %logger %line - %msg%n" />
+
+
+	<!-- 最大保存天数-->
+	<property name="maxHistory" value="15"/>
+	<!--指定日志文件大小，超过指定的大小就新建一个日志文件-->
+	<property name="maxFileSize" value="30MB"/>
+	<!-- 总的文件大小-->
+	<property name="totalSizeCap" value="2GB"/>
 
 	<!-- %m输出的信息,%p日志级别,%t线程名,%d日期,%c类的全名,%i索引【从数字0开始递增】,,, -->
 	<!-- appender是configuration的子节点，是负责写日志的组件。 -->
@@ -31,11 +39,14 @@
 			<!--日志文件输出的文件名 -->
 			<FileNamePattern>${LOG_HOME}/debug-%d{yyyy-MM-dd}.log</FileNamePattern>
 			<!--日志文件保留天数 -->
-			<MaxHistory>15</MaxHistory>
+			<MaxHistory>${maxHistory}</MaxHistory>
 			<!--<timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				&lt;!&ndash;指定日志文件大小，超过指定的大小就新建一个日志文件&ndash;&gt;
 				&lt;!&ndash; maxFileSize:这是活动文件的大小，默认值是10MB，测试时可改成1KB看效果 &ndash;&gt;
-				<maxFileSize>1KB</maxFileSize>
+				<maxFileSize>${maxFileSize}</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>-->
+			<!--总的文件大小-->
+			<!--<totalSizeCap>${totalSizeCap}</totalSizeCap>-->
 		</rollingPolicy>
 		<encoder charset="UTF-8">
 			<pattern>${PATTERN_LAYOUT}</pattern>
@@ -51,7 +62,14 @@
 			<!--日志文件输出的文件名 -->
 			<FileNamePattern>${LOG_HOME}/info.%d{yyyy-MM-dd}.log</FileNamePattern>
 			<!--日志文件保留天数 -->
-			<MaxHistory>15</MaxHistory>
+			<MaxHistory>${maxHistory}</MaxHistory>
+			<!--<timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				&lt;!&ndash;指定日志文件大小，超过指定的大小就新建一个日志文件&ndash;&gt;
+				&lt;!&ndash; maxFileSize:这是活动文件的大小，默认值是10MB，测试时可改成1KB看效果 &ndash;&gt;
+				<maxFileSize>${maxFileSize}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>-->
+			<!--总的文件大小-->
+			<!--<totalSizeCap>${totalSizeCap}</totalSizeCap>-->
 		</rollingPolicy>
 		<encoder charset="UTF-8">
 			<pattern>${PATTERN_LAYOUT}</pattern>
@@ -67,7 +85,14 @@
 			<!--日志文件输出的文件名 -->
 			<FileNamePattern>${LOG_HOME}/error.%d{yyyy-MM-dd}.log</FileNamePattern>
 			<!--日志文件保留天数 -->
-			<MaxHistory>15</MaxHistory>
+			<MaxHistory>${maxHistory}</MaxHistory>
+			<!--<timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				&lt;!&ndash;指定日志文件大小，超过指定的大小就新建一个日志文件&ndash;&gt;
+				&lt;!&ndash; maxFileSize:这是活动文件的大小，默认值是10MB，测试时可改成1KB看效果 &ndash;&gt;
+				<maxFileSize>${maxFileSize}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>-->
+			<!--总的文件大小-->
+			<!--<totalSizeCap>${totalSizeCap}</totalSizeCap>-->
 		</rollingPolicy>
 		<encoder charset="UTF-8">
 			<pattern>${PATTERN_LAYOUT}</pattern>
@@ -84,9 +109,16 @@
 	</appender>
 
 	<logger name="com.hzm.freestyle" level="DEBUG" />
-	
+
+	<logger name="dao" level="DEBUG" />
+
 	<!-- 控制台输出日志级别 -->
 	<root level="INFO">
 		<appender-ref ref="stdout" />
+
+		<!-- 开发阶段可以屏蔽，生产环境打印输出到文件-->
+<!--		<appender-ref ref="file-debug" />-->
+<!--        <appender-ref ref="file-info" />-->
+<!--        <appender-ref ref="file-error" />-->
 	</root>
 </configuration>

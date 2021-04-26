@@ -1,0 +1,38 @@
+# TODO 有问题！！！！！
+## 配置真实数据源
+spring:
+  shardingsphere:
+    datasource:
+      common:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+      #数据库名（注意：数据库名不能带下划线）
+      # 配置第 1 个数据源
+      sharding0:
+        jdbc-url: jdbc:mysql://172.21.23.56:3306/sharding0?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
+        username: root
+        password: coship
+    # 配置分片规则
+    rules:
+      sharding:
+        # 配置分片算法
+        shardingAlgorithms:
+          table-inline:
+            type: INLINE
+            props:
+              # 根据订单id分表
+              algorithm-expression: t_order_$->{order_id % 5}
+        # 配置分库分表规则
+        tables:
+          # 配置 t_order 表规则
+          t_order:
+            actualDataNodes: sharding0.t_order_$->{0..5}
+            # 配置分表策略
+            tableStrategy:
+              standard:
+                # 分片列名称
+                shardingColumn: order_id
+                # 自动分片算法名称
+                shardingAlgorithmName: table-inline
+
+

@@ -1,12 +1,14 @@
+server:
+  port: 8971
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
+#    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://172.21.23.56:3306/conet_meter_reading?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
     username: root
-    password: 123456
+    password: coship
 
-server:
-  port: 8971
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
@@ -17,7 +19,9 @@ mybatis:
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     log-prefix: dao.
   type-aliases-package: com.hzm.freestyle.dto
-  mapper-locations: classpath:mapper/*Mapper.xml
-#pagehelper:
-#logging:
-#  config: classpath:logback-spring.xml
+  mapper-locations: classpath:mapper/*Mapper.xml, classpath:sharding/mappers/*Mapper.xml
+demo:
+  prefix:
+    config:
+      name: test
+      age: 18

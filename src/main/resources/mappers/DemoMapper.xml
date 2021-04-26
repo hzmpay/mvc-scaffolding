@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DemoMapper">
+
+    <select id="demo" >
+        INSERT INTO ELECTRIC_FLOW (USAGE_DAY,FLOW,LAST_UPLOAD,DEVICE_CODE) VALUES
+        (#{usageDay},#{flow},now(),#{deviceCode}) ON DUPLICATE KEY UPDATE FLOW=#{flow},LAST_UPLOAD = now();
+    </select>
+
+    <select id="trafficTrends" resultType="java.util.Map">
+        SELECT
+            <foreach collection="list" item="a" index="index" separator=",">
+                count( CASE WHEN (
+                ar.open_door_time &gt;= #{a.a}
+                 AND ar.open_door_time &lt; #{a.b}
+                 ) THEN 1 END ) AS param_${index}
+            </foreach>
+        FROM
+            `t_access_record` ar
+    </select>
+
+    <select id="trafficTrends2" resultType="java.util.Map">
+        SELECT
+            <foreach collection="list" item="a" index="index" separator=",">
+                ${a[0]} AS param_${index}
+            </foreach>
+        FROM
+            `t_access_record` ar
+    </select>
+
+</mapper>
