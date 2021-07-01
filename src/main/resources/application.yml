@@ -15,8 +15,8 @@ mybatis:
     cache-enabled: true
     use-generated-keys: true
     default-executor-type: reuse
-    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     log-prefix: dao.
   type-aliases-package: com.hzm.freestyle.dto
   mapper-locations: classpath:mapper/*Mapper.xml, classpath:sharding/mappers/*Mapper.xml
